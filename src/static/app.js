@@ -41,6 +41,60 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Helper to create activity cards with participants section
+  function createActivityCard(name, activity) {
+    const card = document.createElement('div');
+    card.className = 'activity-card';
+
+    // Title
+    const title = document.createElement('h4');
+    title.textContent = name;
+    card.appendChild(title);
+
+    // Description
+    const desc = document.createElement('p');
+    desc.textContent = activity.description;
+    card.appendChild(desc);
+
+    // Schedule
+    const schedule = document.createElement('p');
+    schedule.innerHTML = `<strong>Schedule:</strong> ${activity.schedule}`;
+    card.appendChild(schedule);
+
+    // Max participants
+    const max = document.createElement('p');
+    max.innerHTML = `<strong>Max Participants:</strong> ${activity.max_participants}`;
+    card.appendChild(max);
+
+    // Participants section
+    const participantsSection = document.createElement('div');
+    participantsSection.className = 'participants-section';
+
+    const participantsTitle = document.createElement('h5');
+    participantsTitle.textContent = 'Participants';
+    participantsSection.appendChild(participantsTitle);
+
+    const participantsList = document.createElement('ul');
+    participantsList.className = 'participants-list';
+
+    if (activity.participants && activity.participants.length > 0) {
+      activity.participants.forEach(email => {
+        const li = document.createElement('li');
+        li.textContent = email;
+        participantsList.appendChild(li);
+      });
+    } else {
+      const li = document.createElement('li');
+      li.textContent = 'No participants yet.';
+      participantsList.appendChild(li);
+    }
+
+    participantsSection.appendChild(participantsList);
+    card.appendChild(participantsSection);
+
+    return card;
+  }
+
   // Handle form submission
   signupForm.addEventListener("submit", async (event) => {
     event.preventDefault();
